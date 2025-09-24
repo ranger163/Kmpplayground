@@ -35,8 +35,6 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Link iOS Simulator Framework
-        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
       - name: Link iOS Device Framework
         run: ./gradlew :composeApp:linkDebugFrameworkIosArm64
 

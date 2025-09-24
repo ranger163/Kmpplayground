@@ -22,7 +22,6 @@ android:
 ios:
   stage: ios
   script:
-    - ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
     - ./gradlew :composeApp:linkDebugFrameworkIosArm64
   tags:
     - macos
