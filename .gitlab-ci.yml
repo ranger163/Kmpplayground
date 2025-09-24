@@ -22,7 +22,8 @@ android:
 ios:
   stage: ios
   script:
-    - ./gradlew iosX64Test
+    - ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+    - ./gradlew :composeApp:linkDebugFrameworkIosArm64
   tags:
     - macos
   # Note: This job requires a macOS runner with Xcode installed to execute iOS builds.
@@ -31,10 +32,10 @@ web:
   stage: web
   image: gradle:8.5.0-jdk17
   script:
-    - ./gradlew jsBrowserDistribution
+    - ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
 
 desktop:
   stage: desktop
   image: gradle:8.5.0-jdk17
   script:
-    - ./gradlew desktopJar
+    - ./gradlew :composeApp:packageDistributionForCurrentOS

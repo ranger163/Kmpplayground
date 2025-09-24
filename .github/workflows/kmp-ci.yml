@@ -22,7 +22,7 @@ jobs:
         run: ./gradlew assembleDebug
 
   ios:
-    name: iOS Tests
+    name: iOS Frameworks
     # macOS runner is required for iOS targets because Xcode tooling is only available on macOS.
     runs-on: macos-latest
     steps:
@@ -35,11 +35,13 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Run iOS X64 Tests
-        run: ./gradlew iosX64Test
+      - name: Link iOS Simulator Framework
+        run: ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+      - name: Link iOS Device Framework
+        run: ./gradlew :composeApp:linkDebugFrameworkIosArm64
 
   web:
-    name: Web Build
+    name: Web Development Run
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,11 +53,11 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Build Web Distribution
-        run: ./gradlew jsBrowserDistribution
+      - name: Run Web Development Build
+        run: ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
 
   desktop:
-    name: Desktop Build
+    name: Desktop Distribution
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -67,5 +69,5 @@ jobs:
           java-version: '17'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Build Desktop Jar
-        run: ./gradlew desktopJar
+      - name: Package Desktop Distribution
+        run: ./gradlew :composeApp:packageDistributionForCurrentOS
