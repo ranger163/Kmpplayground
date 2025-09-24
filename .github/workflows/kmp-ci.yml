@@ -1,0 +1,71 @@
+name: Kotlin Multiplatform CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  android:
+    name: Android Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Assemble Android Debug
+        run: ./gradlew assembleDebug
+
+  ios:
+    name: iOS Tests
+    # macOS runner is required for iOS targets because Xcode tooling is only available on macOS.
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Run iOS X64 Tests
+        run: ./gradlew iosX64Test
+
+  web:
+    name: Web Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Build Web Distribution
+        run: ./gradlew jsBrowserDistribution
+
+  desktop:
+    name: Desktop Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Build Desktop Jar
+        run: ./gradlew desktopJar

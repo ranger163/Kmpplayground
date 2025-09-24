@@ -1,0 +1,40 @@
+stages:
+  - android
+  - ios
+  - web
+  - desktop
+
+default:
+  before_script:
+    - export GRADLE_USER_HOME="$CI_PROJECT_DIR/.gradle"
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+
+android:
+  stage: android
+  image: gradle:8.5.0-jdk17
+  script:
+    - ./gradlew assembleDebug
+
+ios:
+  stage: ios
+  script:
+    - ./gradlew iosX64Test
+  tags:
+    - macos
+  # Note: This job requires a macOS runner with Xcode installed to execute iOS builds.
+
+web:
+  stage: web
+  image: gradle:8.5.0-jdk17
+  script:
+    - ./gradlew jsBrowserDistribution
+
+desktop:
+  stage: desktop
+  image: gradle:8.5.0-jdk17
+  script:
+    - ./gradlew desktopJar
